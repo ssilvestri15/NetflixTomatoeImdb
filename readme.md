@@ -43,9 +43,9 @@ Ready to embark on your movie adventure? Here's how to get started:
 
 1. Clone this repository.
 2. Install Node.js and MongoDB if you haven't already.
-3. Run npm install to install project dependencies.
+3. Run **npm install** to install project dependencies.
 4. Start MongoDB.
-5. Run npm start to launch the web app.
+5. Run **npm start** to launch the web app.
 6. Open your favorite web browser and navigate to http://localhost:3000.
 
 ## Features
