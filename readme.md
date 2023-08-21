@@ -11,7 +11,6 @@ Welcome to the NetflixTomatoeImdb repository! Here, we're all about movies, data
 - [Technologies Used](#technologies-used)
 - [Getting Started](#getting-started)
 - [Features](#features)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Introduction
