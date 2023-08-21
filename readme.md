@@ -45,8 +45,9 @@ Ready to embark on your movie adventure? Here's how to get started:
 2. Install Node.js and MongoDB if you haven't already.
 3. Run **`npm install`** to install project dependencies.
 4. Start MongoDB.
-5. Run **`npm start`** to launch the web app.
-6. Open your favorite web browser and navigate to http://localhost:3000.
+5. Run **`py ./csv_to_mongo.py`** to populate the db.
+6. Run **`npm start`** to launch the web app.
+7. Open your favorite web browser and navigate to http://localhost:3000.
 
 ## Features
 
