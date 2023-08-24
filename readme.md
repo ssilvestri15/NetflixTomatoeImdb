@@ -65,4 +65,4 @@ Grab your popcorn and join us on this exciting coding journey! 🍿🎉🚀
 
 ## 
 
-Made with ❤️ by Simone Silvestri
+Made with ❤️ by Simone Silvestri and Matteo Ercolino

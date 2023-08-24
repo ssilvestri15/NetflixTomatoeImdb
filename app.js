@@ -20,7 +20,7 @@ app.get('/items', async (req, res) => {
     const items = await db.getItems();
     res.json(items);
   });
-  
+
   app.post('/addItem', async (req, res) => {
     const newItem = { name: req.body.name };
     await db.addItem(newItem);

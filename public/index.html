@@ -2,10 +2,13 @@
 <html>
 <head>
   <title>Node.js Webpage Example</title>
+  <link href='https://fonts.googleapis.com/css?family=Outfit' rel='stylesheet'>
+  <link rel="stylesheet" type="text/css" href="./style/style.css">
 </head>
 <body>
-  <h1>Item List</h1>
+  <h1>Film list</h1>
   <ul id="itemList"></ul>
+  <div id="pagination"></div>
 
   <form action="/addItem" method="post">
     <input type="text" name="name" placeholder="Item name" required>
@@ -13,16 +16,59 @@
   </form>
 
   <script>
+    let currentPage = 1;
+    const itemsPerPage = 10;
+
     async function fetchItems() {
       const response = await fetch('/items');
-      const items = await response.json();
+      const allItems = await response.json();
+
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const items = allItems.slice(startIndex, endIndex);
 
       const itemList = document.getElementById('itemList');
       itemList.innerHTML = '';
 
       items.forEach(item => {
         const li = document.createElement('li');
-        li.textContent = `${item.name} `;
+        // Creazione del titolo
+        const title = document.createElement('h2');
+        title.textContent = item.name;
+        li.appendChild(title);
+
+        // Creazione delle informazioni
+        const info = document.createElement('p');
+        info.textContent = item.info;
+        li.appendChild(info);
+
+        // Creazione dei generi
+        const genres = document.createElement('p');
+        genres.textContent = 'Genres: ' + item.genres;
+        li.appendChild(genres);
+
+        // Creazione dei registi
+        const directors = document.createElement('p');
+        directors.textContent = 'Directors: ' + item.directors;
+        li.appendChild(directors);
+
+        const ratingsDiv = document.createElement('div');
+
+        const rottenRating = document.createElement('p');
+        rottenRating.textContent = `Rotten Tomatoes: ${item.ratings.rotten_rating.tot}`;
+        ratingsDiv.appendChild(rottenRating);
+
+        const netflixRating = document.createElement('p');
+        const netflixValue = item.ratings.netflix_rating.tot/item.ratings.netflix_rating.num;
+        netflixRating.textContent = `Netflix: ${netflixValue.toFixed(1)}/5`;
+        ratingsDiv.appendChild(netflixRating);
+
+        const imdbRating = document.createElement('p');
+        const imdbValue = item.ratings.imdb_rating.tot/item.ratings.imdb_rating.num;
+        imdbRating.textContent = `IMDb: ${imdbValue.toFixed(1)}/10`;
+        ratingsDiv.appendChild(imdbRating);
+
+        li.appendChild(ratingsDiv);
         
         const editButton = document.createElement('button');
         editButton.textContent = 'Edit';
@@ -37,6 +83,26 @@
         
         itemList.appendChild(li);
       });
+
+      createPaginationButtons(allItems.length);
+    }
+
+    function createPaginationButtons(totalItems) {
+      const numPages = Math.ceil(totalItems / itemsPerPage);
+      const paginationContainer = document.getElementById('pagination');
+
+      paginationContainer.innerHTML = '';
+
+      for (let page = 1; page <= numPages; page++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = page;
+        pageButton.addEventListener('click', () => {
+          currentPage = page;
+          fetchItems();
+        });
+
+        paginationContainer.appendChild(pageButton);
+      }
     }
 
     async function removeItem(itemId) {
@@ -58,6 +124,7 @@
     }
 
     fetchItems();
+
   </script>
 </body>
 </html>
