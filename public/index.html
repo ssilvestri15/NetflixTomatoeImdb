@@ -9,7 +9,8 @@
   <h1>Film list</h1>
 
   <a href="/insertFilm"><button>Add new film</button></a>
-
+  <input type="text" id="searchInput" placeholder="Search by title, director, or genre">
+  <button id="searchButton">Search</button>
   <ul id="itemList"></ul>
   <div id="pagination"></div>
 
@@ -17,13 +18,31 @@
     let currentPage = 1;
     const itemsPerPage = 10;
 
+    const searchButton = document.getElementById('searchButton');
+    searchButton.addEventListener('click', () => {
+      currentPage = 1; // Reset current page to 1 when searching
+      fetchItems();
+    });
+
     async function fetchItems() {
       const response = await fetch('/items');
       const allItems = await response.json();
+      const sortByName = (a, b) => a.name > b.name;
+      allItems.sort(sortByName);
+
+      const searchInput = document.getElementById('searchInput').value.toLowerCase().trim();
+      let filteredItems = allItems.filter(item => {
+        const includesSearch = (
+                item.name.toLowerCase().includes(searchInput) ||
+                item.directors.toLowerCase().includes(searchInput) ||
+                item.genres.toLowerCase().includes(searchInput)
+        );
+        return includesSearch;
+      });
 
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const items = allItems.slice(startIndex, endIndex);
+      const items = filteredItems.slice(startIndex, endIndex);
 
       const itemList = document.getElementById('itemList');
       itemList.innerHTML = '';
