@@ -54,16 +54,16 @@
         const ratingsDiv = document.createElement('div');
 
         const rottenRating = document.createElement('p');
-        rottenRating.textContent = `Rotten Tomatoes: ${item.ratings.rotten_rating.tot}`;
+        rottenRating.textContent = `Rotten Tomatoes: ${item.ratings.rotten_rating}`;
         ratingsDiv.appendChild(rottenRating);
 
         const netflixRating = document.createElement('p');
-        const netflixValue = item.ratings.netflix_rating.tot/item.ratings.netflix_rating.num;
+        const netflixValue = item.ratings.netflix_rating;
         netflixRating.textContent = `Netflix: ${netflixValue.toFixed(1)}/5`;
         ratingsDiv.appendChild(netflixRating);
 
         const imdbRating = document.createElement('p');
-        const imdbValue = item.ratings.imdb_rating.tot;
+        const imdbValue = item.ratings.imdb_rating;
         imdbRating.textContent = `IMDb: ${imdbValue.toFixed(1)}/10`;
         ratingsDiv.appendChild(imdbRating);
 
