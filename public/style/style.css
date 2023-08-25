@@ -23,6 +23,10 @@ li {
     justify-content: space-between;
 }
 
+li.item {
+    border-radius: 15px;
+}
+
 li:hover {
     background-color: #e0e0e0;
     transform: scale(1.02);
@@ -49,6 +53,10 @@ button {
     padding: 5px 10px;
     cursor: pointer;
     margin-top: 10px;
+}
+
+button.large {
+    border-radius: 10px;
 }
 
 button:hover {

@@ -32,6 +32,7 @@
 
       items.forEach(item => {
         const li = document.createElement('li');
+        li.className = 'item';
         // Creazione del titolo
         const title = document.createElement('h2');
         title.textContent = item.name;
@@ -71,10 +72,12 @@
         li.appendChild(ratingsDiv);
         
         const editButton = document.createElement('button');
+        editButton.className = 'large';
         editButton.textContent = 'Edit';
         editButton.addEventListener('click', () => editItem(item.id, item.name));
         
         const removeButton = document.createElement('button');
+        removeButton.className = 'large';
         removeButton.textContent = 'Remove';
         removeButton.addEventListener('click', () => removeItem(item.id));
         
