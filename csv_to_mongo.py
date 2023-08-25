@@ -4,7 +4,7 @@ import pandas as pd
 from pymongo import MongoClient, UpdateOne
 from utils import *
 from concurrent.futures import ThreadPoolExecutor
-from random import randrange
+from random import randrange, uniform
 
 
 # Connect to MongoDB
@@ -15,10 +15,9 @@ netflix_collection = db["netflix_ratings"]
 
 
 class MovieInfo:
-    def __init__(self, id, num = 0, tot = 0):
+    def __init__(self, id, score = 0):
         self.id = id
-        self.num = num
-        self.tot = tot
+        self.num = score
 
 class Movie:
     def __init__(self, name, info, genres, directors, authors, release_date, runtime, production_company, ratings):
@@ -66,9 +65,8 @@ with open('./dataset/rotten_tomatoes_movies.csv', newline='', encoding='utf-8') 
         else:
             key = f"{name.lower()}_{date.lower()}"
             rating = row['audience_rating']
-            count = row['audience_count']
 
-            if rating is None or rating == "" or not rating.isnumeric() or count is None or count == "" or not count.isnumeric():
+            if rating is None or rating == "" or not rating.isnumeric():
                 continue
             
             if key in rotten_movies_ratings:
@@ -76,7 +74,7 @@ with open('./dataset/rotten_tomatoes_movies.csv', newline='', encoding='utf-8') 
             else:
                 rotten_movies_full[key] = movie
                 rotten_movies_small[key] = Movie.create(name.lower(), date.lower())
-                rotten_movies_ratings[key] = MovieInfo(key, count, rating)
+                rotten_movies_ratings[key] = MovieInfo(key, rating)
 
 print(f"Found {len(rotten_movies_full)} rotten movies, but {missing_date} skipped")
 netflix_movies_full = {}
@@ -167,19 +165,13 @@ with open('./dataset/imdb_movies.csv', newline='', encoding='utf-8') as csvfile:
         name = row['name']
         release_date = row['year']
         rating = row.get('rating')
-        num_votes = row.get('num_reviews')
 
-        if (release_date is None or release_date == ""):
-            skip += 1
-            continue
-
-        if rating is None or num_votes is None:
+        if (release_date is None or release_date == "" or rating is None):
             skip += 1
             continue
 
         try:
             rating = float(rating)
-            num_votes = float(num_votes)
         except Exception:
             skip += 1
             continue
@@ -188,7 +180,7 @@ with open('./dataset/imdb_movies.csv', newline='', encoding='utf-8') as csvfile:
         imdb_movies[key] = Movie.create(name.lower(), date.lower())
         inserted += 1
 
-        imdb_movies_full[key] = MovieInfo(key, float(num_votes), float(rating))
+        imdb_movies_full[key] = MovieInfo(key, float(rating))
 
     print(f"Found {inserted} imdb movies, but {skip} skipped ")
 
@@ -213,20 +205,27 @@ class MovieRating:
         self.num = num
         self.tot = tot
 
+def transform_float(number):
+    if number % 1 == 0:
+        return int(number)
+    else:
+        return number
+    
 #Add ratings to movies
 for key in i2:
     print(f"Adding ratings to movie: {key}")
-    nn = randrange(100, 1000)
-    nt = 0
-    i = 0
-    while (i < nn):
-        nt += randrange(1,5)
-        i += 1
+    nn = (5*imdb_movies_full[key].num)/10
+    if (nn - 1 < 1):
+        nn = 2
+    elif (nn + 1 > 5):
+        nn = 4
+
+    nn_rand = uniform(nn-1, nn+1)
 
     ratings_data = {
-        "rotten_rating": {"num": rotten_movies_ratings[key].num, "tot": rotten_movies_ratings[key].tot},
-        "netflix_rating": {"num": nn, "tot": nt},
-        "imdb_rating": {"num": imdb_movies_full[key].num, "tot": imdb_movies_full[key].tot}
+        "rotten_rating": rotten_movies_ratings[key].num,
+        "netflix_rating": transform_float(round(nn,1)),
+        "imdb_rating": imdb_movies_full[key].num
     }
     #update element in collection
     filter_query = {"name": rotten_movies_full[key].name, "release_date": rotten_movies_full[key].release_date} 
