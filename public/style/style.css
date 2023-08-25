@@ -41,12 +41,14 @@ h2 {
 
 /* Stili per le informazioni */
 p {
+    text-align: justify;
     font-size: 16px;
     margin-bottom: 10px;
 }
 
 /* Stili per i bottoni */
 button {
+    font-size: 15px;
     background-color: #007bff;
     color: #fff;
     border: none;

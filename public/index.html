@@ -7,13 +7,11 @@
 </head>
 <body>
   <h1>Film list</h1>
+
+  <a href="/insertFilm"><button>Add new film</button></a>
+
   <ul id="itemList"></ul>
   <div id="pagination"></div>
-
-  <form action="/addItem" method="post">
-    <input type="text" name="name" placeholder="Item name" required>
-    <button type="submit">Add Item</button>
-  </form>
 
   <script>
     let currentPage = 1;
