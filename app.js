@@ -26,22 +26,29 @@ app.get('/items', async (req, res) => {
   });
 
 app.post('/addItem', async (req, res) => {
-    const newMovie = {
-        name: req.body.name,
-        info: req.body.info,
-        genres: req.body.genres,
-        directors: req.body.directors,
-        authors: req.body.authors,
-        release_date: req.body.release_date,
-        runtime: req.body.runtime,
-        production_company: req.body.production_company,
-        rotten_rating: req.body.rotten_rating,
-        netflix_rating: req.body.netflix_rating,
-        imdb_rating: req.body.imdb_rating,
-    };
+    try {
 
-    await db.addItem(newMovie);
-    res.redirect('/');
+        const newMovie= {
+            name: req.body.name,
+            info: req.body.info,
+            genres: req.body.genres,
+            directors: req.body.directors,
+            authors: req.body.authors,
+            release_date: req.body.release_date,
+            runtime: req.body.runtime,
+            production_company: req.body.production_company,
+            ratings: {
+                rotten_rating: req.body.rotten_rating,
+                netflix_rating: req.body.netflix_rating,
+                imdb_rating: req.body.imdb_rating
+            }
+        };
+        await db.addItem(newMovie);
+        res.redirect('/');
+    } catch (error) {
+        console.error('Errore durante l\'inserimento del film:', error);
+        res.status(500).send('Si è verificato un errore durante l\'inserimento del film.');
+    }
 });
   
   app.post('/removeItem', async (req, res) => {
