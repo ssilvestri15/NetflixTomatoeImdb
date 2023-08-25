@@ -63,7 +63,7 @@
         ratingsDiv.appendChild(netflixRating);
 
         const imdbRating = document.createElement('p');
-        const imdbValue = item.ratings.imdb_rating.tot/item.ratings.imdb_rating.num;
+        const imdbValue = item.ratings.imdb_rating.tot;
         imdbRating.textContent = `IMDb: ${imdbValue.toFixed(1)}/10`;
         ratingsDiv.appendChild(imdbRating);
 

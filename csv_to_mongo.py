@@ -166,22 +166,29 @@ with open('./dataset/imdb_movies.csv', newline='', encoding='utf-8') as csvfile:
         # Insert each row into MongoDB
         name = row['name']
         release_date = row['year']
+        rating = row.get('rating')
+        num_votes = row.get('num_reviews')
 
         if (release_date is None or release_date == ""):
+            skip += 1
+            continue
+
+        if rating is None or num_votes is None:
+            skip += 1
+            continue
+
+        try:
+            rating = float(rating)
+            num_votes = float(num_votes)
+        except Exception:
             skip += 1
             continue
 
         key = f"{name.lower()}_{release_date.lower()}"
         imdb_movies[key] = Movie.create(name.lower(), date.lower())
         inserted += 1
-        rating = row.get('rating')
-        num_votes = row.get('num_reviews')
 
-        if rating is None or rating == "" or not rating.isnumeric() or num_votes is None or num_votes == "" or not num_votes.isnumeric():
-            rating = randrange(1, 10)
-            num_votes = randrange(100, 1000)        
-
-        imdb_movies_full[key] = MovieInfo(key, float(num_votes), (float(num_votes) * float(rating)))
+        imdb_movies_full[key] = MovieInfo(key, float(num_votes), float(rating))
 
     print(f"Found {inserted} imdb movies, but {skip} skipped ")
 
