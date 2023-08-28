@@ -147,7 +147,7 @@
         ratingsDiv.appendChild(rottenRating);
 
         const netflixRating = document.createElement('p');
-        const netflixValue = item.ratings.netflix_rating;
+        const netflixValue = parseFloat(item.ratings.netflix_rating);
         netflixRating.textContent = `Netflix: ${netflixValue.toFixed(1)}/5`;
         ratingsDiv.appendChild(netflixRating);
 
