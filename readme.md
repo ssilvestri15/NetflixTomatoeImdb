@@ -66,4 +66,4 @@ Grab your popcorn and join us on this exciting coding journey! 🍿🎉🚀
 
 ## 
 
-Made with ❤️ by Simone Silvestri and Matteo Ercolino
+Made with ❤️ by Simone Silvestri, Matteo Ercolino and Carmine Pastore
