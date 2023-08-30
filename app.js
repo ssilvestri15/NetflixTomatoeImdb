@@ -13,7 +13,15 @@ let items = [
 ];
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.sendFile(__dirname + '/public/home.html');
+});
+
+app.get('/home', (req, res) => {
+  res.sendFile(__dirname + '/public/home.html');
+});
+
+app.get('/all', (req, res) => {
+  res.sendFile(__dirname + '/public/all.html');
 });
 
 app.get('/insertFilm', (req, res) => {
