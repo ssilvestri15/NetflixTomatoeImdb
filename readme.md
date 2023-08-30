@@ -1,5 +1,5 @@
 
-# NetflixTomatoeImdb 🎬🍿
+# POPCHIPS 🎬🍿
 
 Welcome to the NetflixTomatoeImdb repository! Here, we're all about movies, data, and a touch of analytics. 🎉
 
@@ -24,6 +24,7 @@ We've curated a selection of datasets to power our movie magic:
 - Rotten Tomatoes Dataset 🍅: [Rotten Tomatoes Movies and Critic Reviews Dataset](https://www.kaggle.com/datasets/stefanoleone992/rotten-tomatoes-movies-and-critic-reviews-dataset)
 - Netflix Dataset 🍿: [Netflix Movie Ratings Dataset](https://www.kaggle.com/datasets/evanschreiner/netflix-movie-ratings)
 - IMDb Dataset 🎥: [IMDb Movie Reviews Dataset](https://ieee-dataport.org/open-access/imdb-movie-reviews-dataset)
+- TV Shows Dataset: [TV Shows Dataset](https://www.kaggle.com/datasets/ruchi798/tv-shows-on-netflix-prime-video-hulu-and-disney)
 
 ## Data Processing
 
@@ -44,10 +45,21 @@ Ready to embark on your movie adventure? Here's how to get started:
 1. Clone this repository.
 2. Install Node.js and MongoDB if you haven't already.
 3. Run **`npm install`** to install project dependencies.
-4. Start MongoDB.
-5. Run **`py ./csv_to_mongo.py`** to populate the db.
-6. Run **`npm start`** to launch the web app.
-7. Open your favorite web browser and navigate to http://localhost:3000.
+4. Run **`pip install -r requirements.txt`** to install project dependencies.
+5. Start MongoDB.
+6. Run **`py ./script/csv_to_mongo.py`** to populate the db.
+7. Run **`npm start`** to launch the web app.
+8. Open your favorite web browser and navigate to http://localhost:3000.
+
+If you want to use the whole Netflix Review Dataset you need to do this:
+1. All the steps above until 5.
+2. Download the Netflix Dataset.
+3. Manually import **`Netflix_User_Ratings.csv`** into MongoDB and call the collection **`netflix_ratings`** (it may take a long time).
+4. Create an index for the collection **`netflix_ratings`** on the field **`MovieId`** (it may take a long time).
+5. Edit the **`csv_to_mongo.py`** accordingly at your needings.
+6. Run **`py ./script/csv_to_mongo.py`** to populate the db.
+7. Run **`npm start`** to launch the web app.
+8. Open your favorite web browser and navigate to http://localhost:3000.
 
 ## Features
 
