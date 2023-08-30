@@ -10,6 +10,10 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
+app.get('/listaFilm', (req, res) => {
+    res.sendFile(__dirname + '/public/listaFilm.html');
+});
+
 app.get('/insertFilm', (req, res) => {
     res.sendFile(__dirname + '/public/insertFilm.html');
 });

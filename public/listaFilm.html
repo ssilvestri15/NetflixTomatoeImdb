@@ -76,7 +76,7 @@
     </div>
 
 </form>
-<a href="insertFilm.html">
+<a href="/insertFilm">
     <button type="button" class="btn btn-primary float-end "
             style="border-radius: 50%; bottom: 50px; position: fixed; right: 50px; z-index: 10000; width: 80px; height: 80px; font-size: 50px;">+
     </button>
@@ -166,7 +166,7 @@
             editButton.textContent = 'Edit';
             editButton.addEventListener('click', function() {
                 const dataJSON = encodeURIComponent(JSON.stringify(item));
-                window.location.href = `updateFilm.html?data=${dataJSON}`;
+                window.location.href = `updateFilm?data=${dataJSON}`;
             });
 
             const removeButton = document.createElement('button');
