@@ -18,6 +18,10 @@ app.get('/insertFilm', (req, res) => {
     res.sendFile(__dirname + '/public/insertFilm.html');
 });
 
+app.get('/updateFilm', (req, res) => {
+    res.sendFile(__dirname + '/public/updateFilm.html');
+});
+
 app.get('/items', async (req, res) => {
     const items = await db.getItems();
     res.json(items);
