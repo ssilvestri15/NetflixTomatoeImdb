@@ -35,7 +35,7 @@ app.get('/items', async (req, res) => {
             genres: genres === undefined ? "" : genres,
             release_date:  release_date === undefined ? "" : release_date,
             directors:  directors === undefined ? "" : directors,
-            type:  type === undefined ? "" : type,
+            type:  type === undefined ? "movie" : type,
             platform:  platform === undefined ? "" : platform,
             rating_platform:  rating_platform === undefined ? "" : rating_platform,
             rating_platform_value:  rating_platform_value === undefined ? "" : rating_platform_value
@@ -122,6 +122,11 @@ app.post('/removeItem', async (req, res) => {
     } catch (error) {
         console.error('Si è verificato un errore durante la cancellazione:', error);
     }
+});
+
+//serie tv
+app.get('/listaSerie', (req, res) => {
+    res.sendFile(__dirname + '/public/listaSerie.html');
 });
 
 // Connect to MongoDB

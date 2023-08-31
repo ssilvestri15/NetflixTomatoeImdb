@@ -77,8 +77,6 @@ function removeItem(itemId) {
   return db.collection('movies').deleteOne({ _id: new ObjectId(itemId) });
 }
 
-
-
 module.exports = {
   connect,
   getItems,
