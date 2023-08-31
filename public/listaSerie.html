@@ -65,8 +65,6 @@
 </a>
 
 
-
-
 <ul id="itemList"></ul>
 <div id="pagination"></div>
 
@@ -77,7 +75,7 @@
   const searchButton = document.getElementById('searchButton');
   searchButton.addEventListener('click', () => {
     currentPage = 1; // Reset current page to 1 when searching
-    fetchItems();
+    filtraOnClick();
   });
 
   async function fetchItems(queryFilter) {

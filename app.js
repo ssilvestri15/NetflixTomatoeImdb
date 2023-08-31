@@ -68,7 +68,7 @@ app.post('/addItem', async (req, res) => {
             }
         };
         await db.addItem(newMovie);
-        res.redirect('/');
+        res.redirect('/listaFilm');
     } catch (error) {
         console.error('Errore durante l\'inserimento del film:', error);
         res.status(500).send('Si è verificato un errore durante l\'inserimento del film.');
@@ -100,7 +100,7 @@ app.post('/updateItem', async (req, res) => {
             return res.status(404).json({ message: 'Elemento non trovato' });
         }
 
-        res.json({ message: 'Elemento aggiornato con successo' });
+        res.redirect('/listaFilm');
     } catch (error) {
         console.error('Errore durante l\'aggiornamento:', error);
         res.status(500).json({ message: 'Errore durante l\'aggiornamento' });
@@ -115,7 +115,7 @@ app.post('/removeItem', async (req, res) => {
 
         if (result.deletedCount === 1) {
             console.log('Cancellazione avvenuta con successo.');
-            res.redirect('/');
+            res.redirect('/listaFilm');
         } else {
             console.log('Nessun item corrispondente trovato per la cancellazione.');
         }
@@ -128,6 +128,90 @@ app.post('/removeItem', async (req, res) => {
 app.get('/listaSerie', (req, res) => {
     res.sendFile(__dirname + '/public/listaSerie.html');
 });
+
+app.get('/insertSerie', (req, res) => {
+    res.sendFile(__dirname + '/public/insertSerie.html');
+});
+app.get('/updateSerie', (req, res) => {
+    res.sendFile(__dirname + '/public/updateSerie.html');
+});
+
+app.post('/addSerie', async (req, res) => {
+    try {
+
+        let selectedDate = new Date(req.body.release_date);
+        let year = selectedDate.getFullYear();
+
+        let rotten = `${req.body.rotten_rating}/100`
+        let imdb = `${req.body.imdb_rating}/100`
+
+        const newSerie = {
+            title: req.body.title,
+            release_date: year,
+            ratings: {
+                rotten_rating: rotten,
+                imdb_rating: imdb
+            },
+            platforms: req.body.platforms
+        };
+        await db.addSerie(newSerie);
+        res.redirect('/listaSerie');
+    } catch (error) {
+        console.error('Errore durante l\'inserimento della serie TV:', error);
+        res.status(500).send('Si è verificato un errore durante l\'inserimento della serie TV.');
+    }
+});
+
+app.post('/updateSerieTV', async (req, res) => {
+    const itemId = req.body._id;
+
+    let selectedDate = new Date(req.body.release_date);
+    let year = selectedDate.getFullYear();
+
+    let rotten = `${req.body.rotten_rating}/100`
+    let imdb = `${req.body.imdb_rating}/100`
+
+    try {
+        const updatedSerie = {
+            title: req.body.title,
+            release_date: year,
+            ratings: {
+                rotten_rating: rotten,
+                imdb_rating: imdb
+            },
+            platforms: req.body.platforms
+        };
+
+        const result = await db.updateSerie(itemId, updatedSerie)
+        console.log(result)
+        if (result.matchedCount === 0) {
+            return res.status(404).json({ message: 'Elemento non trovato' });
+        }
+
+        res.redirect('/listaSerie');
+    } catch (error) {
+        console.error('Errore durante l\'aggiornamento:', error);
+        res.status(500).json({ message: 'Errore durante l\'aggiornamento' });
+    }
+});
+
+
+app.post('/removeSerie', async (req, res) => {
+    const itemId = req.body.id
+    try {
+        const result = await db.removeSerie(itemId);
+
+        if (result.deletedCount === 1) {
+            console.log('Cancellazione avvenuta con successo.');
+            res.redirect('/listaSerie');
+        } else {
+            console.log('Nessun item corrispondente trovato per la cancellazione.');
+        }
+    } catch (error) {
+        console.error('Si è verificato un errore durante la cancellazione:', error);
+    }
+});
+
 
 // Connect to MongoDB
 db.connect().then(() => {

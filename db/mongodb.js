@@ -77,10 +77,26 @@ function removeItem(itemId) {
   return db.collection('movies').deleteOne({ _id: new ObjectId(itemId) });
 }
 
+//serie TV
+function addSerie(item) {
+  return db.collection('tv_shows').insertOne(item);
+}
+
+function updateSerie(itemId, item) {
+  return db.collection('tv_shows').updateOne({ _id: new ObjectId(itemId) }, { $set: item });
+}
+
+function removeSerie(itemId) {
+  return db.collection('tv_shows').deleteOne({ _id: new ObjectId(itemId) });
+}
+
 module.exports = {
   connect,
   getItems,
   addItem,
   removeItem,
   updateItem,
+  addSerie,
+  updateSerie,
+  removeSerie
 };
