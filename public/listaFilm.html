@@ -25,52 +25,49 @@
 </div>
 
 <div class="container  text-center  p-3 mb-5 bg-body-tertiary rounded d-none" id="filterContainer">
-<form>
     <div class="container  text-center  p-3 mb-5 bg-body-tertiary rounded">
         <div class="row mb-2">
         </div>
         <div class="row mb-2">
             <div class="col mb-2">
-                <select class="form-select" aria-label="Disabled select example" >
-                    <option selected>Genere</option>
-                    <option value="1">Comedy</option>
-                    <option value="2">Action</option>
-                    <option value="3">Adventure</option>
-                    <option value="4">Drama</option>
-                    <option value="5">Sports & Fitness</option>
-                    <option value="6">Science Fiction & Fantasy</option>
-                    <option value="7">Romance</option>
+                <select id="#genere" class="form-select" aria-label="Disabled select example">
+                    <option value="">Genere</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Action">Action</option>
+                    <option value="Adventure">Adventure</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Sports & Fitness">Sports & Fitness</option>
+                    <option value="Science Fiction & Fantasy">Science Fiction & Fantasy</option>
+                    <option value="Romance">Romance</option>
                 </select>
             </div>
             <div class="col mb-2">
-                <select class="form-select" aria-label="Disabled select example">
-                    <option selected>Anno</option>
-                    <option value="1">2000</option>
-                    <option value="2">2001</option>
-                    <option value="3">2002</option>
+                <select id="#anno" class="form-select" aria-label="Disabled select example">
+                    <option value="">Anno</option>
+                    <option value="2000">2000</option>
+                    <option value="2001">2001</option>
+                    <option value="2002">2002</option>
                 </select>
             </div>
             <div class="col mb-2">
-                <select class="form-select" aria-label="Disabled select example">
-                    <option selected>Direttore</option>
-                    <option value="1">Tim Burton</option>
-                    <option value="2">Michel Gondry</option>
-                    <option value="3">Ivan Reitman</option>
-                    <option value="4">William Wyler</option>
-                    <option value="5">John Woo</option>
-                    <option value="6">Steven Spielberg</option>
+                <select id="#direttore" class="form-select" aria-label="Disabled select example">
+                    <option value="">Regista</option>
+                    <option value="Tim Burton">Tim Burton</option>
+                    <option value="Michel Gondry">Michel Gondry</option>
+                    <option value="Ivan Reitman">Ivan Reitman</option>
+                    <option value="William Wyler">William Wyler</option>
+                    <option value="John Woo">John Woo</option>
+                    <option value="Steven Spielberg">Steven Spielberg</option>
                 </select>
             </div>
         </div>
+
     </div>
     <div class="row  align-items-center justify-content-center">
         <div class="col-md-6 align-self-center">
-            <button type="submit" class="btn btn-primary">Filtra</button>
+            <button type="submit" class="btn btn-primary" onclick="filtraOnClick()">Filtra</button>
         </div>
-
     </div>
-
-</form>
     </div>
 <a href="/insertFilm">
     <button type="button" class="btn btn-primary float-end"
@@ -94,8 +91,15 @@
         fetchItems();
     });
 
-    async function fetchItems() {
-        const response = await fetch('/items');
+    async function fetchItems(filter) {
+
+        var response;
+        if (filter === null) {
+            response = await fetch('/items');
+        } else {
+            response = await fetch(`/items?${filter}`);
+        }
+
         const allItems = await response.json();
         const sortByName = (a, b) => a.name > b.name;
         allItems.sort(sortByName);
@@ -218,6 +222,26 @@
         } else {
             myDiv.classList.add("d-none");
         }
+    }
+
+    function filtraOnClick() {
+        // Ottieni i valori selezionati dai select
+        var genere = document.getElementById('#genere').value;
+        var anno = document.getElementById('#anno').value;
+        var direttore = document.getElementById('#direttore').value;
+
+        // Crea un oggetto con i dati selezionati
+        var filter = {
+            genres: genere,
+            release_date: anno,
+            directors: direttore
+        };
+
+        console.log(filter)
+
+        const queryFilter = new URLSearchParams(filter)
+        fetchItems(queryFilter)
+
     }
 
 document.getElementById("viewFilter").addEventListener("click", toggleVisibility);

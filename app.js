@@ -24,13 +24,13 @@ app.get('/updateFilm', (req, res) => {
 
 app.get('/items', async (req, res) => {
     try {
-        const genres = req.body.genres;
-        const release_date = req.body.release_date;
-        const directors = req.body.directors;
-        const type = req.body.type;
-        const platform = req.body.platform;
-        const rating_platform = req.body.rating_platform;
-        const rating_platform_value = req.body.rating_platform_value;
+        const genres = req.query.genres;
+        const release_date = req.query.release_date;
+        const directors = req.query.directors;
+        const type = req.query.type;
+        const platform = req.query.platform;
+        const rating_platform = req.query.rating_platform;
+        const rating_platform_value = req.query.rating_platform_value;
         const filters = {
             genres: genres === undefined ? "" : genres,
             release_date:  release_date === undefined ? "" : release_date,
@@ -48,6 +48,7 @@ app.get('/items', async (req, res) => {
         res.status(500).send('Si è verificato un errore durante il recupero dei film.');
     }
 });
+
 
 app.post('/addItem', async (req, res) => {
     try {

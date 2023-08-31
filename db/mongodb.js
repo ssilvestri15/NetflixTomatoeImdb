@@ -26,7 +26,7 @@ function getItems(filters) {
 
     if (filters.genres) {
       const genresRegex = new RegExp(`.*${filters.genres}.*`, 'i');
-      filterQuery.genres = filters.genresRegex;
+      filterQuery.genres = genresRegex;
     }
 
     if (filters.release_date) {
