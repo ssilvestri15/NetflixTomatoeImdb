@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Node.js Webpage Example</title>
+    <title>Catalogo film</title>
     <link href='https://fonts.googleapis.com/css?family=Outfit' rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="./style/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="margin: 50px">
 <h1>Catalogo film</h1>
-<form>
-    <div class="container mt-5 text-center shadow p-3 mb-5 bg-body-tertiary rounded">
-        <div class="row mb-2">
-            <div class="col mb-2">
-                <h3>Filtri</h3>
+<div class="container text-center p-3">
+    <div class="row">
+        <div class="col-10 align-self-center">
+          <div class="input-group mb-3 ">
+                <input type="text" class="form-control" placeholder="Cerca film" aria-label="Cerca film"
+                       aria-describedby="search-button" id="searchInput">
+                <button class="btn btn-primary" type="button" id="searchButton">Cerca</button>
             </div>
+    </div>
+        <div class="col-2">
+            <button class="btn btn-primary" type="button" id="viewFilter"> Mostra filtri</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="container  text-center  p-3 mb-5 bg-body-tertiary rounded d-none" id="filterContainer">
+<form>
+    <div class="container  text-center  p-3 mb-5 bg-body-tertiary rounded">
+        <div class="row mb-2">
         </div>
         <div class="row mb-2">
             <div class="col mb-2">
@@ -48,34 +62,8 @@
                 </select>
             </div>
         </div>
-        <div class="row mb-2">
-            <div class="col">
-                <select class="form-select" aria-label="Disabled select example" disabled>
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-            <div class="col">
-                <select class="form-select" aria-label="Disabled select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-            <div class="col">
-                <select class="form-select" aria-label="Disabled select example">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </div>
-        </div>
     </div>
-    <div class="row mb-2  align-items-center ">
+    <div class="row  align-items-center justify-content-center">
         <div class="col-md-6 align-self-center">
             <button type="submit" class="btn btn-primary">Filtra</button>
         </div>
@@ -83,14 +71,16 @@
     </div>
 
 </form>
+    </div>
 <a href="/insertFilm">
-    <button type="button" class="btn btn-primary float-end "
-            style="border-radius: 50%; bottom: 50px; position: fixed; right: 50px; z-index: 10000; width: 80px; height: 80px; font-size: 50px;">+
+    <button type="button" class="btn btn-primary float-end"
+            style="border-radius: 50%; bottom: 50px; position: fixed; right: 50px; z-index: 10000; width: 70px; height: 70px; font-size: 60px; line-height: 10px; text-align: center; margin-top: -10px;">+
     </button>
 </a>
 
-<input type="text" id="searchInput" placeholder="Search by title, director, or genre">
-<button id="searchButton" class="btn btn-primary">Search</button>
+
+
+
 <ul id="itemList"></ul>
 <div id="pagination"></div>
 
@@ -214,11 +204,23 @@
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: `id=${itemId}`
         });
-        fetchItems();
+        await fetchItems();
+        alert("Deletion completed")
     }
 
     fetchItems();
 
+    function toggleVisibility() {
+        var myDiv = document.getElementById("filterContainer");
+
+        if (myDiv.classList.contains("d-none")) {
+            myDiv.classList.remove("d-none");
+        } else {
+            myDiv.classList.add("d-none");
+        }
+    }
+
+document.getElementById("viewFilter").addEventListener("click", toggleVisibility);
 
 </script>
 </body>

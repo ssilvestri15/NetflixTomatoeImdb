@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Catalogo serie</title>
+  <link href='https://fonts.googleapis.com/css?family=Outfit' rel='stylesheet'>
+  <link rel="stylesheet" type="text/css" href="./style/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="margin: 50px">
+<h1>Catalogo serie</h1>
+<div class="container text-center p-3">
+  <div class="row">
+    <div class="col-10 align-self-center">
+      <div class="input-group mb-3 ">
+        <input type="text" class="form-control" placeholder="Cerca serie" aria-label="Cerca cerca serie"
+               aria-describedby="search-button" id="searchInput">
+        <button class="btn btn-primary" type="button" id="searchButton">Cerca</button>
+      </div>
+    </div>
+    <div class="col-2">
+      <button class="btn btn-primary" type="button" id="viewFilter"> Mostra filtri</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="container  text-center  p-3 mb-5 bg-body-tertiary rounded d-none" id="filterContainer">
+  <form>
+    <div class="container  text-center  p-3 mb-5 bg-body-tertiary rounded">
+      <div class="row mb-2">
+      </div>
+      <div class="row mb-2">
+        <div class="col mb-2">
+          <select class="form-select" aria-label="Disabled select example" >
+            <option selected>Platform</option>
+            <option value="1">Netflix</option>
+            <option value="2">Disney+</option>
+            <option value="3">Hulu</option>
+            <option value="4">Prime Video</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row  align-items-center justify-content-center">
+      <div class="col-md-6 align-self-center">
+        <button type="submit" class="btn btn-primary">Filtra</button>
+      </div>
+
+    </div>
+
+  </form>
+</div>
+<a href="/insertSerie">
+  <button type="button" class="btn btn-primary float-end"
+          style="border-radius: 50%; bottom: 50px; position: fixed; right: 50px; z-index: 10000; width: 70px; height: 70px; font-size: 60px; line-height: 10px; text-align: center; margin-top: -10px;">+
+  </button>
+</a>
+
+
+
+
+<ul id="itemList"></ul>
+<div id="pagination"></div>
+
+<script>
+  let currentPage = 1;
+  const itemsPerPage = 10;
+
+  const searchButton = document.getElementById('searchButton');
+  searchButton.addEventListener('click', () => {
+    currentPage = 1; // Reset current page to 1 when searching
+    fetchItems();
+  });
+
+  async function fetchItems() {
+    const response = await fetch('/serieTV');
+    const allItems = await response.json();
+    const sortByName = (a, b) => a.title > b.title;
+    allItems.sort(sortByName);
+
+    const searchInput = document.getElementById('searchInput').value.toLowerCase().trim();
+    let filteredItems = allItems.filter(item => {
+      const includesSearch = (
+              item.title.toLowerCase().includes(searchInput)
+      );
+      return includesSearch;
+    });
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const items = filteredItems.slice(startIndex, endIndex);
+
+    const itemList = document.getElementById('itemList');
+    itemList.innerHTML = '';
+
+    items.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'item';
+      // Creazione del titolo
+      const title = document.createElement('h2');
+      title.textContent = item.title;
+      li.appendChild(title);
+
+      // Creazione delle informazioni
+      const info = document.createElement('p');
+      info.textContent = item.release_date;
+      li.appendChild(info);
+
+      // Creazione dei platforms
+      const platforms = document.createElement('p');
+      platforms.textContent = 'Platforms: ' + item.platforms;
+      li.appendChild(platforms);
+
+
+      const ratingsDiv = document.createElement('div');
+
+      const rottenRating = document.createElement('p');
+      rottenRating.textContent = `Rotten Tomatoes: ${item.ratings.rotten_rating}`;
+      ratingsDiv.appendChild(rottenRating);
+
+      const imdbRating = document.createElement('p');
+      const imdbValue = item.ratings.imdb_rating;
+      imdbRating.textContent = `IMDb: ${imdbValue}`;
+      ratingsDiv.appendChild(imdbRating);
+
+      li.appendChild(ratingsDiv);
+
+      const editButton = document.createElement('button');
+      editButton.className = 'large';
+      editButton.textContent = 'Edit';
+      editButton.addEventListener('click', function() {
+        const dataJSON = encodeURIComponent(JSON.stringify(item));
+        window.location.href = `updateSerie?data=${dataJSON}`;
+      });
+
+      const removeButton = document.createElement('button');
+      removeButton.className = 'large';
+      removeButton.textContent = 'Remove';
+      removeButton.addEventListener('click', () => removeItem(item._id));
+
+      li.appendChild(editButton);
+      li.appendChild(removeButton);
+
+      itemList.appendChild(li);
+    });
+
+    createPaginationButtons(allItems.length);
+  }
+
+  function createPaginationButtons(totalItems) {
+    const numPages = Math.ceil(totalItems / itemsPerPage);
+    const paginationContainer = document.getElementById('pagination');
+
+    paginationContainer.innerHTML = '';
+
+    for (let page = 1; page <= numPages; page++) {
+      const pageButton = document.createElement('button');
+      pageButton.textContent = page;
+      pageButton.addEventListener('click', () => {
+        currentPage = page;
+        fetchItems();
+      });
+
+      paginationContainer.appendChild(pageButton);
+    }
+  }
+
+  async function removeItem(itemId) {
+    await fetch('/removeSerie', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: `id=${itemId}`
+    });
+    await fetchItems();
+    alert("Deletion completed")
+  }
+
+  fetchItems();
+
+  function toggleVisibility() {
+    var myDiv = document.getElementById("filterContainer");
+
+    if (myDiv.classList.contains("d-none")) {
+      myDiv.classList.remove("d-none");
+    } else {
+      myDiv.classList.add("d-none");
+    }
+  }
+
+  document.getElementById("viewFilter").addEventListener("click", toggleVisibility);
+
+</script>
+</body>
+</html>
