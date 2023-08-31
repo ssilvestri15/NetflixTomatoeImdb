@@ -25,30 +25,28 @@
 </div>
 
 <div class="container  text-center  p-3 mb-5 bg-body-tertiary rounded d-none" id="filterContainer">
-  <form>
     <div class="container  text-center  p-3 mb-5 bg-body-tertiary rounded">
       <div class="row mb-2">
       </div>
       <div class="row mb-2">
         <div class="col mb-2">
-          <select class="form-select" aria-label="Disabled select example" >
-            <option selected>Platform</option>
-            <option value="1">Netflix</option>
-            <option value="2">Disney+</option>
-            <option value="3">Hulu</option>
-            <option value="4">Prime Video</option>
+          <select id="#platform" class="form-select" aria-label="Disabled select example" >
+            <option value="">Platform</option>
+            <option value="Netflix">Netflix</option>
+            <option value="Disney+">Disney+</option>
+            <option value="Hulu">Hulu</option>
+            <option value="Prime Video">Prime Video</option>
           </select>
         </div>
       </div>
     </div>
     <div class="row  align-items-center justify-content-center">
       <div class="col-md-6 align-self-center">
-        <button type="submit" class="btn btn-primary">Filtra</button>
+        <button type="submit" class="btn btn-primary" onclick="filtraOnClick()">Filtra</button>
       </div>
 
     </div>
 
-  </form>
 </div>
 <a href="/insertSerie">
   <button type="button" class="btn btn-primary float-end"
@@ -64,7 +62,7 @@
 
 <script>
   let currentPage = 1;
-  const itemsPerPage = 10;
+  const itemsPerPage = 20;
 
   const searchButton = document.getElementById('searchButton');
   searchButton.addEventListener('click', () => {
@@ -72,8 +70,9 @@
     fetchItems();
   });
 
-  async function fetchItems() {
-    const response = await fetch('/serieTV');
+  async function fetchItems(queryFilter) {
+    var response = await fetch(`/items?type=serie&${queryFilter}`);
+
     const allItems = await response.json();
     const sortByName = (a, b) => a.title > b.title;
     allItems.sort(sortByName);
@@ -185,6 +184,19 @@
     } else {
       myDiv.classList.add("d-none");
     }
+  }
+
+  function filtraOnClick() {
+    // Ottieni i valori selezionati dai select
+    var platform = document.getElementById('#platform').value;
+
+    // Crea un oggetto con i dati selezionati
+    var filter = {
+      platform: platform
+    };
+    const queryFilter = new URLSearchParams(filter)
+    fetchItems(queryFilter)
+
   }
 
   document.getElementById("viewFilter").addEventListener("click", toggleVisibility);
