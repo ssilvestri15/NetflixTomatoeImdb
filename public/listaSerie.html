@@ -38,6 +38,16 @@
             <option value="Prime Video">Prime Video</option>
           </select>
         </div>
+        <div class="col mb-2">
+          <select id="#date" class="form-select" aria-label="Disabled select example" >
+            <option value="">Data</option>
+            <option value="1980">1980-1990</option>
+            <option value="1990">1990-2000</option>
+            <option value="2000">2000-2010</option>
+            <option value="2010">2010-2020</option>
+            <option value="2020">2020-2023</option>
+          </select>
+        </div>
       </div>
     </div>
     <div class="row  align-items-center justify-content-center">
@@ -71,7 +81,7 @@
   });
 
   async function fetchItems(queryFilter) {
-    var response = await fetch(`/items?type=serie&${queryFilter}`);
+    const response = await fetch(`/items?type=serie&${queryFilter}`);
 
     const allItems = await response.json();
     const sortByName = (a, b) => a.title > b.title;
@@ -157,7 +167,7 @@
       pageButton.textContent = page;
       pageButton.addEventListener('click', () => {
         currentPage = page;
-        fetchItems();
+        filtraOnClick();
       });
 
       paginationContainer.appendChild(pageButton);
@@ -189,10 +199,12 @@
   function filtraOnClick() {
     // Ottieni i valori selezionati dai select
     var platform = document.getElementById('#platform').value;
+    var date = document.getElementById('#date').value
 
     // Crea un oggetto con i dati selezionati
     var filter = {
-      platform: platform
+      platform: platform,
+      release_date: date
     };
     const queryFilter = new URLSearchParams(filter)
     fetchItems(queryFilter)

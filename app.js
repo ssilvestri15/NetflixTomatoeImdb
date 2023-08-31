@@ -40,7 +40,6 @@ app.get('/items', async (req, res) => {
             rating_platform:  rating_platform === undefined ? "" : rating_platform,
             rating_platform_value:  rating_platform_value === undefined ? "" : rating_platform_value
         };
-        console.log(filters)
         const items = await db.getItems(filters);
         res.json(items);
     } catch (error) {

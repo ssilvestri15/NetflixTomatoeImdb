@@ -14,8 +14,6 @@ async function connect() {
 
 function getItems(filters) {
 
-  console.log(filters);
-
   if (!filters) {
     return db.collection('movies').find().toArray();
   }
@@ -45,7 +43,10 @@ function getItems(filters) {
     const filterQuery = {};
 
     if (filters.release_date) {
-      filterQuery.release_date = filters.release_date;
+      let startDate = filters.release_date;
+      let endDate = (parseInt(startDate, 10) + 10).toString();
+      console.log(endDate)
+      filterQuery.release_date = { $gte: startDate, $lte: endDate };
     }
 
     if (filters.platform) {
@@ -59,7 +60,6 @@ function getItems(filters) {
       filterQuery[`ratings.${platform}`] = value_to_search;
     }
 
-    console.log(filterQuery);
     return db.collection('tv_shows').find(filterQuery).toArray();
   }
 

@@ -130,6 +130,11 @@
             li.appendChild(title);
 
             // Creazione delle informazioni
+            const date = document.createElement('p');
+            date.textContent = item.release_date;
+            li.appendChild(date);
+
+            // Creazione delle informazioni
             const info = document.createElement('p');
             info.textContent = item.info;
             li.appendChild(info);
@@ -195,7 +200,7 @@
             pageButton.textContent = page;
             pageButton.addEventListener('click', () => {
                 currentPage = page;
-                fetchItems();
+                filtraOnClick();
             });
 
             paginationContainer.appendChild(pageButton);
