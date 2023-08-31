@@ -15,15 +15,31 @@
                 <img src="./img.png" alt="Immagine" class="img-fluid">
             </div>
 
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Cerca film" aria-label="Cerca film"
+            <div class="row-centered">
+                 <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Inserisci titolo" aria-label="Cerca "
                        aria-describedby="search-button">
                 <button class="btn btn-primary" type="button" id="search-button">Cerca</button>
+                 </div>
             </div>
+            <div class="row-centered mb-3 ">
+                <input class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                     Serie TV
+                    </label>
+                <input class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                      <label class="form-check-label" for="flexRadioDefault1">
+                        Film
+                      </label>
+            </div>
+
 
             <div class="d-grid gap-2 ">
                 <a href="/listaFilm">
-                    <button type="button" class="btn btn-primary">Visualizza tutti</button>
+                    <button type="button" class="btn btn-primary">Visualizza film</button>
+                </a>
+                <a href="/listaFilm">
+                    <button type="button" class="btn btn-primary">Visualizza Serie tv</button>
                 </a>
                 <a href="/listaFilm">
                     <button type="button" class="btn btn-primary">Visualizza film italiani</button>
