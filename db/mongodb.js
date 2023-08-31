@@ -25,7 +25,7 @@ function updateItem(itemId, item) {
 }
 
 function removeItem(itemId) {
-  return db.collection('movies').deleteOne({ _id: itemId });
+  return db.collection('movies').deleteOne({ _id: new ObjectId(itemId) });
 }
 
 

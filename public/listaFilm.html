@@ -91,6 +91,7 @@
 
 <input type="text" id="searchInput" placeholder="Search by title, director, or genre">
 <button id="searchButton" class="btn btn-primary">Search</button>
+
 <ul id="itemList"></ul>
 <div id="pagination"></div>
 
@@ -214,7 +215,8 @@
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             body: `id=${itemId}`
         });
-        fetchItems();
+        await fetchItems();
+        alert("Deletion completed")
     }
 
     fetchItems();

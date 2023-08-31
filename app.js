@@ -87,9 +87,19 @@ app.post('/updateItem', async (req, res) => {
 
 
 app.post('/removeItem', async (req, res) => {
-    const itemId = require('mongodb').ObjectID(req.body.id);
-    await db.removeItem(itemId);
-    res.redirect('/');
+    const itemId = req.body.id
+    try {
+        const result = await db.removeItem(itemId);
+
+        if (result.deletedCount === 1) {
+            console.log('Cancellazione avvenuta con successo.');
+            res.redirect('/');
+        } else {
+            console.log('Nessun item corrispondente trovato per la cancellazione.');
+        }
+    } catch (error) {
+        console.error('Si è verificato un errore durante la cancellazione:', error);
+    }
 });
 
 // Connect to MongoDB
