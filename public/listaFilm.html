@@ -94,7 +94,7 @@
     async function fetchItems(filter) {
 
         var response;
-        if (filter === null) {
+        if (filter === undefined || filter === null) {
             response = await fetch('/items');
         } else {
             response = await fetch(`/items?${filter}`);
@@ -160,7 +160,7 @@
             ratingsDiv.appendChild(netflixRating);
 
             const imdbRating = document.createElement('p');
-            const imdbValue = item.ratings.imdb_rating;
+            const imdbValue = parseFloat(item.ratings.imdb_rating);
             imdbRating.textContent = `IMDb: ${imdbValue.toFixed(1)}/10`;
             ratingsDiv.appendChild(imdbRating);
 
