@@ -1,7 +1,7 @@
 
 # POPCHIPS 🎬🍿
 
-Welcome to the NetflixTomatoeImdb repository! Here, we're all about movies, data, and a touch of analytics. 🎉
+Welcome to the NetflixTomatoeImdb repository! Here, we're all about movies and data. 🎉
 
 ## Table of Contents
 
@@ -15,7 +15,7 @@ Welcome to the NetflixTomatoeImdb repository! Here, we're all about movies, data
 
 ## Introduction
 
-Lights, camera, code! Our project revolves around building a web application that displays movie ratings and allows you to dive into some fascinating analytics. Whether you're a cinephile or just looking for your next movie night pick, this web app has got you covered! 😄🍕
+Lights, camera, code! Our project revolves around building a web application that displays movie ratings. Whether you're a cinephile or just looking for your next movie night pick, this web app has got you covered! 😄🍕
 
 ## Datasets
 
@@ -66,7 +66,6 @@ If you want to use the whole Netflix Review Dataset you need to do this:
 Our web app is a movie lover's dream come true:
 
 - Browse movie ratings from Rotten Tomatoes, Netflix, and IMDb.
-- Enjoy insightful analytics and trends.
 - Perform Create, Read, Update, and Delete (CRUD) operations on movie data.
 - Have a laugh at some movie-related jokes we've sprinkled throughout the app. 😄🎉
 
