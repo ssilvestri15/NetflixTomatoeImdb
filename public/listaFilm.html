@@ -91,6 +91,13 @@
         filtraOnClick();
     });
 
+    // Ottieni l'URL corrente della pagina
+    const currentUrl = window.location.href;
+    // Estrai il valore del parametro "query" dall'URL
+    const urlSearchParams = new URLSearchParams(new URL(currentUrl).search);
+    const queryValue = urlSearchParams.get("search");
+    document.getElementById('searchInput').value = queryValue
+
     async function fetchItems(filter) {
 
         var response;
